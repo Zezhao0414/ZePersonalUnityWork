@@ -28,8 +28,18 @@ public class PlayerAttribute : MonoBehaviour
 
     private float timer;
     private bool restore;
-   
 
+    public GameObject HPlinesAbove;
+    public GameObject HPlinesRight;
+    public GameObject HPlinesBottom;
+
+    public GameObject EPlinesAbove;
+    public GameObject EPlinesRight;
+    public GameObject EPlinesBottom;
+
+    public GameObject SPlinesAbove;
+    public GameObject SPlinesRight;
+    public GameObject SPlinesBottom;
     void Awake()
     {
         HP = 300;
@@ -64,10 +74,14 @@ public class PlayerAttribute : MonoBehaviour
                 HP += 50;
                 HPBarFresh();
             }
-            else if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 EP += 50;
                 EPBarFresh();
+            }
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                Eat(20f);
             }
         }
         
@@ -129,8 +143,15 @@ public class PlayerAttribute : MonoBehaviour
         nowHP = HP;
         HPbuffer.fillAmount = 1;
         RectTransform HPbarTrans = HPbar.GetComponent<RectTransform>();
-        HPbarTrans.sizeDelta = new Vector2(HP,15);
+        HPbarTrans.sizeDelta = new Vector2(HP,10);
         HPbarTrans.anchoredPosition3D = new Vector3(HP / 2 + 10, -15, 0);
+        HPlinesAbove.GetComponent<RectTransform>().sizeDelta = new Vector2(HP + 2, 1);
+        HPlinesAbove.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(HP / 2 + 10, -9.5f, 0);
+
+        HPlinesBottom.GetComponent<RectTransform>().sizeDelta = new Vector2(HP + 2, 1);
+        HPlinesBottom.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(HP / 2 + 10, -20.5f, 0);
+
+        HPlinesRight.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(HP + 10.5f, -15f, 0);
     }
 
     private void EPBarFresh()
@@ -138,8 +159,16 @@ public class PlayerAttribute : MonoBehaviour
         EPbar.maxValue = EP;
         nowEP = EP;
         RectTransform EPbarTrans = EPbar.GetComponent<RectTransform>();
-        EPbarTrans.sizeDelta = new Vector2(EP, 15);
-        EPbarTrans.anchoredPosition3D = new Vector3(EP / 2 + 10, -30, 0);
+        EPbarTrans.sizeDelta = new Vector2(EP, 10);
+        EPbarTrans.anchoredPosition3D = new Vector3(EP / 2 + 10, -26.5f, 0);
+
+        EPlinesAbove.GetComponent<RectTransform>().sizeDelta = new Vector2(EP + 2, 1);
+        EPlinesAbove.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(EP / 2 + 10, -21f, 0);
+
+        EPlinesBottom.GetComponent<RectTransform>().sizeDelta = new Vector2(EP + 2, 1);
+        EPlinesBottom.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(EP / 2 + 10, -32f, 0);
+
+        EPlinesRight.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(EP + 10.5f, -26.5f, 0);
     }
 
     private void SPBarFresh()
@@ -147,8 +176,16 @@ public class PlayerAttribute : MonoBehaviour
         SPbar.maxValue = SP;
         nowSP = SP;
         RectTransform SPbarTrans = SPbar.GetComponent<RectTransform>();
-        SPbarTrans.sizeDelta = new Vector2(SP, 15);
-        SPbarTrans.anchoredPosition3D = new Vector3(SP / 2 + 10, -45, 0);
+        SPbarTrans.sizeDelta = new Vector2(SP, 10);
+        SPbarTrans.anchoredPosition3D = new Vector3(SP / 2 + 10, -38, 0);
+
+        SPlinesAbove.GetComponent<RectTransform>().sizeDelta = new Vector2(SP + 2, 1);
+        SPlinesAbove.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(SP / 2 + 10, -32.5f, 0);
+
+        SPlinesBottom.GetComponent<RectTransform>().sizeDelta = new Vector2(SP + 2, 1);
+        SPlinesBottom.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(SP / 2 + 10, -43.5f, 0);
+
+        SPlinesRight.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(SP + 10.5f, -38f, 0);
     }
     
     private void Run()
@@ -211,4 +248,18 @@ public class PlayerAttribute : MonoBehaviour
             Debug.Log("∂ˆÀ¿¡À£°");
         }
     }
+
+    public void Eat(float food)
+    {
+        if(nowSP < SP - food)
+        {
+            nowSP += food;
+        }
+        else
+        {
+            nowSP = SP;
+        }
+    }
 }
+
+
